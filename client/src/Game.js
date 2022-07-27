@@ -5,6 +5,8 @@ const Game = ({ socket, username, room }) => {
   const [opponentId, setOpponentId] = useState("");
   const [userMove, setUserMove] = useState(null);
   const [opponentMove, setOpponentMove] = useState(null);
+  const [userWins, setUserWins] = useState(0);
+  const [opponentWins, setOpponentWins] = useState(0);
 
   socket.once("game_start", (data) => {
     const oppId = data.roomIds.filter((item) => item !== socket.id);
@@ -29,12 +31,24 @@ const Game = ({ socket, username, room }) => {
       const res = handleOutcome(userMove, opponentMove);
       setUserMove(null);
       setOpponentMove(null);
-      console.log(res);
+      handleScore(res);
     }
   }, [userMove, opponentMove]);
 
+  const handleScore = (res) => {
+    if (res === "W") {
+      setUserWins((value) => value + 1);
+    } else if (res === "L") {
+      setOpponentWins((value) => value + 1);
+    }
+  };
+
   return (
     <>
+      <div>
+        <div>You: {userWins}</div>
+        <div>Opponent: {opponentWins}</div>
+      </div>
       {!userMove ? (
         <div>
           <button type="submit" onClick={() => handleMove("rock")}>
