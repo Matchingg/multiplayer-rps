@@ -20,10 +20,23 @@ io.on("connection", (socket) => {
   socket.on("join_room", (data) => {
     socket.join(data);
     console.log(`User with ID: ${socket.id} joined room: ${data}`);
+    console.log(
+      `There are ${io.sockets.adapter.rooms.get(data).size} users in the room`
+    );
+    if (io.sockets.adapter.rooms.get(data).size === 2) {
+      const roomIds = [...io.sockets.adapter.rooms.get(data)];
+      socket.to(data).emit("game_start", { roomIds, first: true });
+    }
   });
 
-  socket.on("send_message", (data) => {
-    socket.to(data.room).emit("receive_message", data);
+  socket.on("find_opponent", (data) => {
+    socket
+      .to(data.oppId)
+      .emit("game_start", { roomIds: data.roomIds, first: false });
+  });
+
+  socket.on("send_move", (data) => {
+    socket.to(data.opponentId).emit("receive_move", data.move);
   });
 
   socket.on("disconnect", () => {
@@ -31,6 +44,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3001, () => {
+server.listen(8080, () => {
   console.log("SERVER RUNNING");
 });

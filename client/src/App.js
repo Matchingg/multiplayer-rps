@@ -2,24 +2,24 @@ import React, { useState } from "react";
 import io from "socket.io-client";
 import Game from "./Game";
 
-const socket = io.connect("http://localhost:3001");
+const socket = io.connect("http://localhost:8080");
 
 function App() {
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
-  const [showChat, setShowChat] = useState(false);
+  const [showGame, setShowGame] = useState(false);
 
   const joinRoom = () => {
     if (username !== "" && room !== "") {
       socket.emit("join_room", room);
-      setShowChat(true);
+      setShowGame(true);
     }
   };
   return (
     <div className="App">
-      {!showChat ? (
+      {!showGame ? (
         <div className="joinChatContainer">
-          <h3>Join a Chat</h3>
+          <h3>Join a Game</h3>
           <input
             type="text"
             placeholder="Name"
