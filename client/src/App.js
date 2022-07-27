@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import Game from "./Game";
 
@@ -8,38 +8,65 @@ function App() {
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
   const [showGame, setShowGame] = useState(false);
+  const [opponentId, setOpponentId] = useState("");
 
   const joinRoom = () => {
     if (username !== "" && room !== "") {
+      console.log("Looking for opponent");
       socket.emit("join_room", room);
-      setShowGame(true);
     }
   };
+
+  socket.once("game_start", (data) => {
+    const oppId = data.roomIds.filter((item) => item !== socket.id);
+    setOpponentId(oppId);
+    if (data.first) {
+      const roomIds = [...data.roomIds];
+      socket.emit("find_opponent", { roomIds, oppId });
+    }
+    setShowGame(true);
+  });
+
+  socket.on("full_room", (data) => {
+    console.log(`Room ${data} is full`);
+  });
+
   return (
-    <div className="App">
-      {!showGame ? (
-        <div className="joinChatContainer">
-          <h3>Join a Game</h3>
-          <input
-            type="text"
-            placeholder="Name"
-            onChange={(event) => {
-              setUsername(event.target.value);
-            }}
+    <>
+      <div className="App">
+        {!showGame ? (
+          <div className="joinGameContainer">
+            <h3 className="title">Join a Game</h3>
+            <input
+              className="input"
+              type="text"
+              placeholder="Name"
+              onChange={(event) => {
+                setUsername(event.target.value);
+              }}
+            />
+            <input
+              className="input"
+              type="text"
+              placeholder="Room ID"
+              onChange={(event) => {
+                setRoom(event.target.value);
+              }}
+            />
+            <button className="submit" onClick={joinRoom}>
+              Join a Room
+            </button>
+          </div>
+        ) : (
+          <Game
+            socket={socket}
+            username={username}
+            room={room}
+            opponentId={opponentId}
           />
-          <input
-            type="text"
-            placeholder="Room ID"
-            onChange={(event) => {
-              setRoom(event.target.value);
-            }}
-          />
-          <button onClick={joinRoom}>Join a Room</button>
-        </div>
-      ) : (
-        <Game socket={socket} username={username} room={room} />
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 }
 

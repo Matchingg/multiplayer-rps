@@ -1,21 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { handleOutcome } from "./Helper";
 
-const Game = ({ socket, username, room }) => {
-  const [opponentId, setOpponentId] = useState("");
+const Game = ({ socket, username, room, opponentId }) => {
   const [userMove, setUserMove] = useState(null);
   const [opponentMove, setOpponentMove] = useState(null);
   const [userWins, setUserWins] = useState(0);
   const [opponentWins, setOpponentWins] = useState(0);
-
-  socket.once("game_start", (data) => {
-    const oppId = data.roomIds.filter((item) => item !== socket.id);
-    setOpponentId(oppId);
-    if (data.first) {
-      const roomIds = [...data.roomIds];
-      socket.emit("find_opponent", { roomIds, oppId });
-    }
-  });
 
   const handleMove = (move) => {
     setUserMove(move);
@@ -44,13 +34,13 @@ const Game = ({ socket, username, room }) => {
   };
 
   return (
-    <>
-      <div>
+    <div className="Game">
+      <div className="scores">
         <div>You: {userWins}</div>
         <div>Opponent: {opponentWins}</div>
       </div>
       {!userMove ? (
-        <div>
+        <div className="options">
           <button type="submit" onClick={() => handleMove("rock")}>
             Rock
           </button>
@@ -62,9 +52,16 @@ const Game = ({ socket, username, room }) => {
           </button>
         </div>
       ) : (
-        <p>{userMove}</p>
+        <div>
+          <div className="user-move">{userMove}</div>
+          {opponentMove ? (
+            <div className="opponent-move">{opponentMove}</div>
+          ) : (
+            <div>Opponent is making move</div>
+          )}
+        </div>
       )}
-    </>
+    </div>
   );
 };
 

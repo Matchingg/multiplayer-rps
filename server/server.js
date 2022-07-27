@@ -19,6 +19,12 @@ io.on("connection", (socket) => {
 
   socket.on("join_room", (data) => {
     socket.join(data);
+    if (io.sockets.adapter.rooms.get(data).size === 3) {
+      console.log(`Room is full for ${socket.id}`);
+      socket.to(socket.id).emit("full_room", data);
+      socket.leave(data);
+      return;
+    }
     console.log(`User with ID: ${socket.id} joined room: ${data}`);
     console.log(
       `There are ${io.sockets.adapter.rooms.get(data).size} users in the room`
