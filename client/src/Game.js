@@ -34,33 +34,50 @@ const Game = ({ socket, username, room, opponentId }) => {
   };
 
   return (
-    <div className="Game">
+    <div>
       <div className="scores">
         <div>You: {userWins}</div>
         <div>Opponent: {opponentWins}</div>
       </div>
-      {!userMove ? (
-        <div className="options">
-          <button type="submit" onClick={() => handleMove("rock")}>
-            Rock
-          </button>
-          <button type="submit" onClick={() => handleMove("paper")}>
-            Paper
-          </button>
-          <button type="submit" onClick={() => handleMove("scissors")}>
-            Scissors
-          </button>
-        </div>
-      ) : (
-        <div>
-          <div className="user-move">{userMove}</div>
-          {opponentMove ? (
-            <div className="opponent-move">{opponentMove}</div>
-          ) : (
-            <div>Opponent is making move</div>
-          )}
-        </div>
-      )}
+      <div className="Game">
+        {!userMove ? (
+          <div className="options">
+            <button
+              className="button-option"
+              type="submit"
+              onClick={() => handleMove("rock")}
+            >
+              Rock
+            </button>
+            <button
+              className="button-option"
+              type="submit"
+              onClick={() => handleMove("paper")}
+            >
+              Paper
+            </button>
+            <button
+              className="button-option"
+              type="submit"
+              onClick={() => handleMove("scissors")}
+            >
+              Scissors
+            </button>
+          </div>
+        ) : (
+          <div>
+            <div className="user-move">{userMove}</div>
+          </div>
+        )}
+        {opponentMove ? (
+          <div className="opponent-move">{opponentMove}</div>
+        ) : (
+          <div>
+            <div className="opponent-move-text">Opponent is making a move</div>
+            <div className="loader"></div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
