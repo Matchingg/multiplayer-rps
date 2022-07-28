@@ -6,6 +6,7 @@ const socket = io.connect("http://localhost:8080");
 
 function App() {
   const [username, setUsername] = useState("");
+  const [opponentName, setOpponentName] = useState("");
   const [room, setRoom] = useState("");
   const [showGame, setShowGame] = useState(false);
   const [opponentId, setOpponentId] = useState("");
@@ -14,16 +15,17 @@ function App() {
   const joinRoom = () => {
     if (username !== "" && room !== "") {
       setSignedIn(true);
-      socket.emit("join_room", room);
+      socket.emit("join_room", { room, name: username });
     }
   };
 
   socket.once("game_start", (data) => {
     const oppId = data.roomIds.filter((item) => item !== socket.id);
     setOpponentId(oppId);
+    setOpponentName(data.oppName);
     if (data.first) {
       const roomIds = [...data.roomIds];
-      socket.emit("find_opponent", { roomIds, oppId });
+      socket.emit("find_opponent", { username, roomIds, oppId });
     }
     setShowGame(true);
   });
@@ -65,6 +67,7 @@ function App() {
             username={username}
             room={room}
             opponentId={opponentId}
+            opponentName={opponentName}
           />
         )}
       </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { handleOutcome } from "./Helper";
 
-const Game = ({ socket, username, room, opponentId }) => {
+const Game = ({ socket, username, room, opponentId, opponentName }) => {
   const [userMove, setUserMove] = useState(null);
   const [opponentMove, setOpponentMove] = useState(null);
   const [userWins, setUserWins] = useState(0);
@@ -39,8 +39,12 @@ const Game = ({ socket, username, room, opponentId }) => {
   return (
     <div>
       <div className="scores">
-        <div className="score-text">You: {userWins}</div>
-        <div className="score-text">Opponent: {opponentWins}</div>
+        <div className="score-text">
+          {username}: {userWins}
+        </div>
+        <div className="score-text">
+          {opponentName}: {opponentWins}
+        </div>
       </div>
       <div className="Game">
         {!userMove ? (

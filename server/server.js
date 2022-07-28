@@ -18,27 +18,33 @@ io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
 
   socket.on("join_room", (data) => {
-    socket.join(data);
-    if (io.sockets.adapter.rooms.get(data).size === 3) {
+    socket.join(data.room);
+    if (io.sockets.adapter.rooms.get(data.room).size === 3) {
       console.log(`Room is full for ${socket.id}`);
-      socket.to(socket.id).emit("full_room", data);
-      socket.leave(data);
+      socket.to(socket.id).emit("full_room", data.room);
+      socket.leave(data.room);
       return;
     }
-    console.log(`User with ID: ${socket.id} joined room: ${data}`);
+    console.log(`User with ID: ${socket.id} joined room: ${data.room}`);
     console.log(
-      `There are ${io.sockets.adapter.rooms.get(data).size} users in the room`
+      `There are ${
+        io.sockets.adapter.rooms.get(data.room).size
+      } users in the room`
     );
-    if (io.sockets.adapter.rooms.get(data).size === 2) {
-      const roomIds = [...io.sockets.adapter.rooms.get(data)];
-      socket.to(data).emit("game_start", { roomIds, first: true });
+    if (io.sockets.adapter.rooms.get(data.room).size === 2) {
+      const roomIds = [...io.sockets.adapter.rooms.get(data.room)];
+      socket
+        .to(data.room)
+        .emit("game_start", { oppName: data.name, roomIds, first: true });
     }
   });
 
   socket.on("find_opponent", (data) => {
-    socket
-      .to(data.oppId)
-      .emit("game_start", { roomIds: data.roomIds, first: false });
+    socket.to(data.oppId).emit("game_start", {
+      oppName: data.username,
+      roomIds: data.roomIds,
+      first: false,
+    });
   });
 
   socket.on("send_move", (data) => {
