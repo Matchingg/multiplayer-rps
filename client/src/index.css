@@ -28,7 +28,7 @@ body {
 }
 
 .input {
-  background-color: #9bd7ff;
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 12px;
   box-sizing: border-box;
   font-size: 18px;
@@ -37,15 +37,16 @@ body {
   width: 33%;
   padding-top: 10px;
   padding-bottom: 10px;
+  color: rgb(0, 0, 0);
 }
 
 .submit {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 12px;
   border-color: #eee;
   border-width: 4px;
   box-sizing: border-box;
-  color: #eee;
+  color: rgb(0, 0, 0);
   cursor: pointer;
   font-size: 18px;
   height: 50px;
