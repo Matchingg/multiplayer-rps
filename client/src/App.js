@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import io from "socket.io-client";
 import Game from "./Game";
 
-const socket = io.connect("http://localhost:8080");
+const socket = io.connect("https://matching-multiplayer-rps.herokuapp.com/");
 
 function App() {
   const [username, setUsername] = useState("");
