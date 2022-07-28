@@ -1,3 +1,7 @@
+* {
+  font-family: "Rubik", sans-serif;
+}
+
 body {
   background-image: linear-gradient(
     to bottom right,
@@ -5,7 +9,6 @@ body {
     rgb(0, 64, 255)
   );
   height: full;
-  font-family: "Rubik", sans-serif;
 }
 
 .joinGameContainer {
@@ -25,7 +28,7 @@ body {
 }
 
 .input {
-  background-color: #303245;
+  background-color: #9bd7ff;
   border-radius: 12px;
   box-sizing: border-box;
   font-size: 18px;
@@ -68,6 +71,10 @@ body {
   height: 5vh;
 }
 
+.score-text {
+  font-size: x-large;
+}
+
 .button-option {
   margin-left: 5px;
   margin-right: 5px;
@@ -88,8 +95,9 @@ body {
 }
 
 .opponent-move-text {
-  padding-bottom: 1rem;
+  padding-top: 1rem;
   text-align: center;
+  transform: translateX(-3rem);
 }
 
 .loader {
@@ -99,7 +107,7 @@ body {
   width: 60px;
   height: 60px;
   animation: spin 2s linear infinite;
-  margin-left: 2.5rem;
+  margin-top: 0;
 }
 
 @keyframes spin {
