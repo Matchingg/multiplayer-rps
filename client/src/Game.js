@@ -19,9 +19,12 @@ const Game = ({ socket, username, room, opponentId }) => {
   useEffect(() => {
     if (userMove && opponentMove) {
       const res = handleOutcome(userMove, opponentMove);
-      setUserMove(null);
-      setOpponentMove(null);
       handleScore(res);
+      const resetGame = () => {
+        setUserMove(null);
+        setOpponentMove(null);
+      };
+      setTimeout(resetGame, 2000);
     }
   }, [userMove, opponentMove]);
 
@@ -36,8 +39,8 @@ const Game = ({ socket, username, room, opponentId }) => {
   return (
     <div>
       <div className="scores">
-        <div>You: {userWins}</div>
-        <div>Opponent: {opponentWins}</div>
+        <div className="score-text">You: {userWins}</div>
+        <div className="score-text">Opponent: {opponentWins}</div>
       </div>
       <div className="Game">
         {!userMove ? (
@@ -88,8 +91,8 @@ const Game = ({ socket, username, room, opponentId }) => {
           <div className="opponent-move">{opponentMove}</div>
         ) : (
           <div>
-            <div className="opponent-move-text">Opponent is making a move</div>
             <div className="loader"></div>
+            <div className="opponent-move-text">Opponent is making a move</div>
           </div>
         )}
       </div>
