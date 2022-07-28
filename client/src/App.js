@@ -9,10 +9,11 @@ function App() {
   const [room, setRoom] = useState("");
   const [showGame, setShowGame] = useState(false);
   const [opponentId, setOpponentId] = useState("");
+  const [signedIn, setSignedIn] = useState(false);
 
   const joinRoom = () => {
     if (username !== "" && room !== "") {
-      console.log("Looking for opponent");
+      setSignedIn(true);
       socket.emit("join_room", room);
     }
   };
@@ -56,6 +57,7 @@ function App() {
             <button className="submit" onClick={joinRoom}>
               Join a Room
             </button>
+            {signedIn ? <p>Waiting for opponent...</p> : null}
           </div>
         ) : (
           <Game
