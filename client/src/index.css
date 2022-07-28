@@ -88,12 +88,6 @@ body {
   transform: translateX(-3rem);
 }
 
-.user-move {
-}
-
-.opponent-move {
-}
-
 .opponent-move-text {
   padding-top: 1rem;
   text-align: center;

@@ -84,11 +84,15 @@ const Game = ({ socket, username, room, opponentId }) => {
           </div>
         ) : (
           <div>
+            <img src={`/assets/${userMove}.png`} alt="" />
             <div className="user-move">{userMove}</div>
           </div>
         )}
-        {opponentMove ? (
-          <div className="opponent-move">{opponentMove}</div>
+        {opponentMove && userMove ? (
+          <div>
+            <img src={`/assets/${userMove}.png`} alt="" />
+            <div className="opponent-move">{opponentMove}</div>
+          </div>
         ) : (
           <div>
             <div className="loader"></div>
