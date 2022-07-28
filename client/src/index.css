@@ -71,10 +71,14 @@ body {
 .button-option {
   margin-left: 5px;
   margin-right: 5px;
-  width: 5rem;
+  width: 7rem;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .options {
+  transform: translateX(-3rem);
 }
 
 .user-move {

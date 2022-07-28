@@ -47,6 +47,11 @@ const Game = ({ socket, username, room, opponentId }) => {
               type="submit"
               onClick={() => handleMove("rock")}
             >
+              <img
+                src="https://i.postimg.cc/w3vjyS3L/rock.png"
+                alt=""
+                width="100px"
+              />
               Rock
             </button>
             <button
@@ -54,6 +59,11 @@ const Game = ({ socket, username, room, opponentId }) => {
               type="submit"
               onClick={() => handleMove("paper")}
             >
+              <img
+                src="https://i.postimg.cc/G95hkqsN/paper.png"
+                alt=""
+                width="100px"
+              />
               Paper
             </button>
             <button
@@ -61,6 +71,11 @@ const Game = ({ socket, username, room, opponentId }) => {
               type="submit"
               onClick={() => handleMove("scissors")}
             >
+              <img
+                src="https://i.postimg.cc/4mH4wV63/scissors.png"
+                alt=""
+                width="100px"
+              />
               Scissors
             </button>
           </div>
